@@ -2,7 +2,7 @@
 
 mkdir -p networks
 
-cp -r ../rho-contracts/networks networks
+cp -r ../rho-contracts/networks/** networks
 
 jq '.contracts["contracts/Rho.sol:Rho"].abi | fromjson' \
-        ../rho-contracts/.build/contracts.json > networks/abis.json
+        ../rho-contracts/.build/contracts.json > networks/rho_abi.json
