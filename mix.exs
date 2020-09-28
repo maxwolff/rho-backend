@@ -22,7 +22,12 @@ defmodule Rho.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ethereumex, "~> 0.6.4"}
+      {:abi, "~> 0.1.8"},
+      {:ethereumex, "~> 0.6.4"},
+      {:exth_crypto, "~> 0.1.6"},
+      {:plug, "~> 1.6"},
+      {:plug_cowboy, "~> 2.0"},
+      {:cowboy, "~> 2.4"}
     ]
   end
 end

@@ -6,7 +6,8 @@ defmodule Rho.Application do
   def start(_type, _args) do
     children = [
       Rho.Logs,
-      Rho.Worker
+      Rho.Worker,
+      Rho.Endpoint
     ]
 
     opts = [strategy: :one_for_one, name: Rho.Supervisor]
