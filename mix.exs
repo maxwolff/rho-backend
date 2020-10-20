@@ -26,8 +26,7 @@ defmodule Rho.MixProject do
       {:ethereumex, "~> 0.6.4"},
       {:exth_crypto, "~> 0.1.6"},
       {:plug, "~> 1.6"},
-      {:plug_cowboy, "~> 2.0"},
-      {:cowboy, "~> 2.4"}
+      {:plug_cowboy, "~> 2.0"}
     ]
   end
 end

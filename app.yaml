@@ -1,0 +1,7 @@
+service: rho-backend
+env: flex
+runtime: gs://elixir-runtime/elixir.yaml
+env_variables:
+  NETWORK: "kovan"
+automatic_scaling:
+   min_num_instances: 1

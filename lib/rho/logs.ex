@@ -7,6 +7,12 @@ defmodule Rho.Worker do
     GenServer.start_link(__MODULE__, [], opts)
   end
 
+  def init(_) do
+    client().start_link()
+    schedule_work()
+    {:ok, []}
+  end
+
   def client() do
     Application.fetch_env!(:rho, :client)
   end
@@ -14,12 +20,6 @@ defmodule Rho.Worker do
   def schedule_work() do
     poll()
     Process.send_after(self(), :poll, @delay_ms)
-  end
-
-  def init(_) do
-    client().start_link()
-    schedule_work()
-    {:ok, []}
   end
 
   def handle_info(:poll, state) do
@@ -46,7 +46,7 @@ defmodule Rho.Logs do
   use Agent
 
   def start_link(_) do
-    Agent.start_link(fn -> %{pending_swaps: %{}, logs: [], last_block: "earliest"} end,
+    Agent.start_link(fn -> %{pending_swaps: %{}, logs: [], last_block: "0x0"} end,
       name: __MODULE__
     )
   end
@@ -57,9 +57,12 @@ defmodule Rho.Logs do
 
       case log["name"] do
         "OpenSwap" ->
+          sanitized_data = for {k, v} <- log["data"], into: %{}, do: {k, to_string(v)}
+          open_log = %{log | "data" => sanitized_data}
+
           Agent.update(
             __MODULE__,
-            &put_in(&1, [:pending_swaps, log["data"]["swapHash"]], log)
+            &put_in(&1, [:pending_swaps, log["data"]["swapHash"]], open_log)
           )
 
         "CloseSwap" ->

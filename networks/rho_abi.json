@@ -966,10 +966,29 @@
   {
     "inputs": [
       {
-        "internalType": "bool",
-        "name": "userPayingFixed",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "notionalAmount",
+        "type": "uint256"
       },
+      {
+        "internalType": "uint256",
+        "name": "maximumFixedRateMantissa",
+        "type": "uint256"
+      }
+    ],
+    "name": "openPayFixedSwap",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "swapHash",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "uint256",
         "name": "notionalAmount",
@@ -977,11 +996,11 @@
       },
       {
         "internalType": "uint256",
-        "name": "fixedRateLimitMantissa",
+        "name": "minFixedRateMantissa",
         "type": "uint256"
       }
     ],
-    "name": "open",
+    "name": "openReceiveFixedSwap",
     "outputs": [
       {
         "internalType": "bytes32",
