@@ -53,16 +53,15 @@ defmodule Rho.Logs do
 
   def add_logs(logs) do
     Enum.each(logs, fn log ->
-      Agent.update(__MODULE__, &Map.update!(&1, :logs, fn x -> x ++ [log] end))
+      sanitized_data = for {k, v} <- log["data"], into: %{}, do: {k, to_string(v)}
+      clean_log = %{log | "data" => sanitized_data}
+      Agent.update(__MODULE__, &Map.update!(&1, :logs, fn x -> x ++ [clean_log] end))
 
       case log["name"] do
         "OpenSwap" ->
-          sanitized_data = for {k, v} <- log["data"], into: %{}, do: {k, to_string(v)}
-          open_log = %{log | "data" => sanitized_data}
-
           Agent.update(
             __MODULE__,
-            &put_in(&1, [:pending_swaps, log["data"]["swapHash"]], open_log)
+            &put_in(&1, [:pending_swaps, log["data"]["swapHash"]], clean_log)
           )
 
         "CloseSwap" ->
